@@ -35,4 +35,3 @@ public class Permission {
 	private List<Role> roles = new ArrayList<>();
 		
 }
-
