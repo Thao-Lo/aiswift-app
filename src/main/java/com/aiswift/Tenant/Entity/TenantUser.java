@@ -25,17 +25,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class TenantUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name="first_name",nullable = false, unique = true, length = 45)
-	private String firstName;
-
-	@Column(name="last_name",nullable = false, unique = true, length = 45)
-	private String lastName;
+	@Column(nullable = false, unique = true, length = 45)
+	private String name;
 
 	@Column(nullable = false, unique = true, length = 100)
 	private String email;
@@ -54,7 +51,6 @@ public class User {
 	@Column(name = "created_at")
 	@CreationTimestamp
 	private LocalDateTime createdAt;
-	
+
 	
 }
-
