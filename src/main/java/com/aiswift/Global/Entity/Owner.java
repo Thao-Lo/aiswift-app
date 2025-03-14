@@ -61,7 +61,7 @@ public class Owner {
 	
 	@OneToMany (mappedBy = "owner", cascade = CascadeType.ALL) //owner lowecase, field in Tenant
 	@JsonIgnore
-	List<Tenant> tenants = new ArrayList<>();
+	List<Tenant> tenants = new ArrayList<Tenant>();
 	
 	
 }

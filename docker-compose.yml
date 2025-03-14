@@ -1,0 +1,13 @@
+services:
+ db4:
+  image: mysql:latest
+  environment: 
+   MYSQL_ROOT_PASSWORD: root
+   MYSQL_USER: user
+   MYSQL_PASSWORD: root
+  ports:
+   - 3306:3306
+  volumes:
+   - aiswift:/var/lib/mysql #Just define the volume, no init scripts
+volumes:
+ aiswift: #empty volume declaration

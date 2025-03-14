@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aiswift.Global.Service.TenantService;
 
+
 @RestController
 @RequestMapping("api/global")
 public class TenantController {
