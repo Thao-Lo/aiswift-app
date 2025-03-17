@@ -102,6 +102,7 @@ public class TenantService {
 				throw new RuntimeException("Flyway migration failed for " + databaseName + ": " + e.getMessage());
 			}			
 			
+			// TenantRoutingDataSource tenantRoutingDataSource = applicationContext.getBean(MultiTenantDataSource.class);
 			tenantRoutingDataSource.addDataSource(databaseName, tenantDataSource);
 			
 			connection.commit();			

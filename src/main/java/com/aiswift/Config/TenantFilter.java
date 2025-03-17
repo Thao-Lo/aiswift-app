@@ -24,6 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class TenantFilter extends OncePerRequestFilter{
 
 	private final ObjectProvider<TenantService> tenantServiceProvider;
+//	private final TenantService tenantService;
     private static final Logger logger = LoggerFactory.getLogger(TenantFilter.class);
 
    
@@ -57,6 +58,14 @@ public class TenantFilter extends OncePerRequestFilter{
             if (userGlobalRole !=null) {
         		TenantContext.setCurrentUserRole(userGlobalRole);
             }
+//            else {
+//            	if(shopName == null) {
+//            		//userGlobalRole == null and shopName == null
+//            		TenantContext.setCurrentUserRole("DEVELOPER"); //default is developer if user does not define userRole
+//            	}
+            		//userGlobalRole == null and shopName !=null ==> proceed to jwt to see if jwt has info about user's role
+            	
+//            }
 
             if (shopName == null) {
                 logger.warn("Shop-name header missing");

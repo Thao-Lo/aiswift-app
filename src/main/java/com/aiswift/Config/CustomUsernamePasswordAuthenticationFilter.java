@@ -44,13 +44,26 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
+        	System.out.println("I am in login filter");
+     
+//            
+//        	// Read the request body as a JSON object
+//            JsonNode jsonNode = new ObjectMapper().readTree(request.getInputStream());
+            
+//            System.out.println("JsonNode:"+ jsonNode);
+//         // Extract username and password
+//            String username = jsonNode.get("username").asText();
+//            String password = jsonNode.get("password").asText();
+            
         	  // Handle form-encoded data
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             
             if (username == null || password == null) {
                 throw new AuthenticationServiceException("Username or password not provided");
-            }            
+            }
+           System.out.println("I am attempting login, username: "+username + " password: "+password);
+            
             // Create authentication token
             UsernamePasswordAuthenticationToken authRequest = 
                 new UsernamePasswordAuthenticationToken(username, password);
@@ -66,6 +79,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
                                            HttpServletResponse response,
                                            FilterChain chain, 
                                            Authentication authResult) throws IOException, ServletException {
+    	System.out.println(" I am in sucess handler");
         // Generate JWT on successful authentication
         UserDetails userDetails = (UserDetails) authResult.getPrincipal();
         // Generate JWT access token
@@ -107,7 +121,24 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
         
      // Write the response body as JSON
         response.getWriter().write(new ObjectMapper().writeValueAsString(responseBody));
-               
+        
+//      //Store access token in cookie
+//        Cookie accessCookie = new Cookie("jwt_token", jwt);
+//        accessCookie.setHttpOnly(true);
+//        accessCookie.setPath("/"); // Available for all paths
+//        response.addCookie(accessCookie);
+//     
+//     // Store refresh token in cookie
+//        Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
+//        refreshCookie.setHttpOnly(true);
+//        refreshCookie.setPath("/auth/refresh"); //only include the cookie in this path
+//        refreshCookie.setMaxAge(604800); // 7 days
+//        
+//        
+//        //send freresh + access token
+//        response.addCookie(refreshCookie);
+//        response.addCookie(accessCookie);    
+        
     }
     
     @Override

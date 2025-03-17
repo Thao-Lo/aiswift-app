@@ -39,6 +39,28 @@ public class MultiTenantDataSourceConfig {
 	@Bean
 	public TenantRoutingDataSource multiTenantDataSource() {
 		TenantRoutingDataSource tenantRoutingDataSource = new TenantRoutingDataSource();
+//		Map<Object, Object> dataSourceMap = new HashMap<>();
+//
+//		List<Tenant> tenants = tenantService.getAllTenant();
+//		
+//		if (tenants.isEmpty()) {
+//			System.out.print("No tenant found");
+//		} else {
+//			for (Tenant tenant : tenants) {
+//				System.out.println(" I am in Multitenant DS Config, adding tenants"+tenant.getDbName());
+//				dataSourceMap.put(tenant.getDbName(), dataSourceUtil.createDataSource(tenant.getDbName()));
+//			}
+//		}
+//		
+//		DataSource defaultDataSource = dataSourceUtil.createDataSource("global_multi_tenant");
+//		dataSourceMap.put("default", defaultDataSource);
+//
+//		tenantRoutingDataSource.setTargetDataSources(dataSourceMap);
+//		tenantRoutingDataSource.setDefaultTargetDataSource(defaultDataSource);
+//		tenantRoutingDataSource.afterPropertiesSet();
+//
+//		System.out.println("added default DS"+ defaultDataSource);
+		//add default DataSource
 		tenantRoutingDataSource.addDataSource("default", dataSourceUtil.createDataSource("global_multi_tenant"));
 				
 		return tenantRoutingDataSource;
