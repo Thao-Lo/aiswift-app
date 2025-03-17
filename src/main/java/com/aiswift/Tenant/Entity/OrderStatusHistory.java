@@ -50,6 +50,6 @@ public class OrderStatusHistory {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_user_id")
     @JsonBackReference
-    private TenantUser updatedBy;
+    private User updatedBy;
 }
 

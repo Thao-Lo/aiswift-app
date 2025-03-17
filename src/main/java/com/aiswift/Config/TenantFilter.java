@@ -72,7 +72,7 @@ public class TenantFilter extends OncePerRequestFilter{
                 TenantContext.setCurrentTenant("default");
             } else {
         		// shop is specified
-        		Tenant tenant = tenantService.getDatabaseNameByShopId(shopName);
+        		Tenant tenant = tenantService.getTenantByShopId(shopName);
                 if (tenant != null && tenant.getDbName() != null) {
                     TenantContext.setCurrentTenant(tenant.getDbName());
                     logger.info("Setting DB to: {} in thread: {}", tenant.getDbName(), Thread.currentThread().getId());

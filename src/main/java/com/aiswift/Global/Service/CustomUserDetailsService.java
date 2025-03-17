@@ -19,7 +19,7 @@ import com.aiswift.Global.Repository.OwnerRepository;
 import com.aiswift.MultiTenancy.TenantContext;
 import com.aiswift.Tenant.Entity.TenantUser;
 import com.aiswift.Tenant.Repository.TenantUserRepository;
-import com.aiswift.dto.CustomUserDetails;
+import com.aiswift.dto.Global.CustomUserDetails;
 
 
 

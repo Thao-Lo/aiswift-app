@@ -42,8 +42,12 @@ public class TenantService {
 	public List<Tenant> getAllTenant(){
 		return tenantRepository.findAll();
 	}
-	public Tenant getDatabaseNameByShopId(String shopName) {
+	public Tenant getTenantByShopId(String shopName) {
 		return tenantRepository.findByName(shopName);
+	}
+	
+	public Tenant getTenantByDatabaseName(String dbName) {
+		return tenantRepository.findByDbName(dbName);
 	}
 	
 	public List<Tenant> getTenantsByOwnerId(Long ownerId){
