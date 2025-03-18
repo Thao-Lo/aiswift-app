@@ -25,7 +25,7 @@ public class PayPal {
     private String id;
     
     @Column(name = "tenant_id")
-    private String tenantId;
+    private Long tenantId;
     
     @Column(name = "client_id")
     private String clientId;

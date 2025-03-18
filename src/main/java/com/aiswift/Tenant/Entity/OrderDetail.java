@@ -58,7 +58,7 @@ private BigDecimal subtotal;
 private Size size;
 
 @Column(name="created_by")	
-private String createdBy;
+private String createdBy; //userId
 
 @Column(name="created_at")
 private LocalDateTime createdAt;

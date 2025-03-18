@@ -13,5 +13,6 @@ import com.aiswift.MultiTenancy.TenantContext;
 	    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 	        String currentTenant = TenantContext.getCurrentTenant();
 	        return !"global_multi_tenant".equals(currentTenant) && !"default".equals(currentTenant);
+	    	
 	    }
 	}

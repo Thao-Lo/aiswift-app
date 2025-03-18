@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.aiswift.Config.TenantDatabaseCondition;
@@ -15,6 +17,7 @@ import com.aiswift.Tenant.Entity.OrderDetail;
 import com.aiswift.Tenant.Entity.OrderDetailKey;
 import com.aiswift.Tenant.Entity.Product;
 import com.aiswift.Tenant.Entity.Size;
+import com.aiswift.Tenant.Entity.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +28,7 @@ public class OrderDetailService {
 
 	@Autowired
 	ProductService productService;
+	
 
 	@Autowired
 	SizeService sizeService;
@@ -34,11 +38,15 @@ public class OrderDetailService {
 		Size size = sizeService.getSizeById(sizeId);
 		// Create OrderDetailKey
 		OrderDetailKey orderDetailKey = new OrderDetailKey(order.getId(), productId);
-
+		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		 User currentUser =null;
+	        if (authentication != null) {
+	        	currentUser = (User)authentication.getPrincipal();
+	        }
 		// build orderDetail
 		OrderDetail orderDetail = OrderDetail.builder().id(orderDetailKey) // Set the composite key
 				.product(product).quantity(quantity).price(size != null ? size.getSizePrice() : product.getPrice())
-				.order(order).createdBy(order.getUser().getEmail()).size(size).createdAt(LocalDateTime.now()).build();
+				.order(order).createdBy(currentUser.getEmail()).size(size).createdAt(LocalDateTime.now()).build();
 		BigDecimal subTotal = calculateOrderDetailTotal(orderDetail);
 		orderDetail.setSubtotal(subTotal);
 		System.out.println("added orderDetail: " + orderDetail.getProduct().getName());

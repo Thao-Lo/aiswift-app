@@ -22,7 +22,7 @@ import com.aiswift.Tenant.Service.SizeService;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @RestController
-@RequestMapping("api/tenant/product/size")
+@RequestMapping("/api/tenant/product/size")
 public class SizeController {
 
 	@Autowired

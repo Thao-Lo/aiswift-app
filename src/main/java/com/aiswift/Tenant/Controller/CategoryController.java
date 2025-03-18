@@ -20,13 +20,13 @@ import com.aiswift.Tenant.Service.CategoryService;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @RestController
-@RequestMapping("api/tenant/category")
+@RequestMapping("/api/tenant/category")
 public class CategoryController {
 
 	@Autowired
 	CategoryService categoryService;
 
-	@GetMapping("/")
+	@GetMapping
 	public ResponseEntity<List<Category>> getAllCategories() {
 		List<Category> categories = categoryService.getAllCategory();
 		return ResponseEntity.ok(categories);
@@ -38,9 +38,10 @@ public class CategoryController {
 		return ResponseEntity.ok(topLevelCategories);
 	}
 
-	@PostMapping("/")
+	@PostMapping
 	public ResponseEntity<Category> addCategory(@RequestParam(required = true, name = "name") String name,
 			@RequestParam(required = false, name = "parentId") Long parentId) {
+		System.out.println("I am category controller");
 		Category category = categoryService.addCategory(name, parentId);
 		return ResponseEntity.ok(category);
 

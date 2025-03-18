@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class TenantUser extends User {
 	private static final long serialVersionUID = 1L;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "role_id") //have column role_id in users
 	private Role role;
 	

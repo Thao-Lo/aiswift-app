@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -30,7 +29,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 	
     private JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
-    
+  
     @Autowired
     public CustomUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
@@ -44,20 +43,29 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-        	  // Handle form-encoded data
+            // Handle form-encoded data
             String username = request.getParameter("username");
             String password = request.getParameter("password");
+            
+            System.out.println(username);
+            System.out.println(password);
             
             if (username == null || password == null) {
                 throw new AuthenticationServiceException("Username or password not provided");
             }            
+            
             // Create authentication token
             UsernamePasswordAuthenticationToken authRequest = 
                 new UsernamePasswordAuthenticationToken(username, password);
+            System.out.println(authRequest);
             
             return authenticationManager.authenticate(authRequest);
+        } catch (AuthenticationException e) {
+            // Let Spring Security handle authentication exceptions
+            throw e;
         } catch (Exception e) {
-            throw new AuthenticationServiceException("Failed to parse authentication request", e);
+            e.printStackTrace();
+            throw new AuthenticationServiceException("Failed to parse authentication request: " + e.getMessage(), e);
         }
     }
     
@@ -107,6 +115,8 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
         
      // Write the response body as JSON
         response.getWriter().write(new ObjectMapper().writeValueAsString(responseBody));
+       
+        
                
     }
     

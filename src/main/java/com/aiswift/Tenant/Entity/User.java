@@ -7,18 +7,15 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.Id;
-
 import com.aiswift.Enum.Status;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,10 +33,10 @@ public abstract class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name="first_name",nullable = false, unique = true, length = 45)
+    @Column(name="first_name",nullable = false, length = 45)
 	private String firstName;
 
-	@Column(name="last_name",nullable = false, unique = true, length = 45)
+	@Column(name="last_name",nullable = false, length = 45)
 	private String lastName;
 
 	@Column(nullable = false, unique = true, length = 100)
@@ -61,7 +58,6 @@ public abstract class User implements Serializable {
 	private LocalDateTime updatedAt;
     // Common user methods
 	
-	@OneToMany(mappedBy = "user")
-    @JsonManagedReference
+	@Transient
     private List<Order> orders = new ArrayList<>();
 }

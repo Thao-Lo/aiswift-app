@@ -34,7 +34,7 @@ public class OrderEntityListener {
         if (authentication != null) {
         	User currentUser = (User)authentication.getPrincipal();
         
-            order.setUser(currentUser);
+            order.setUserId(currentUser.getId());
         }
 
         if (order.getCreatedAt() == null) {

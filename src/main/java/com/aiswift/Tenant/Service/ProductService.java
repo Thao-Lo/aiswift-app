@@ -65,8 +65,11 @@ public class ProductService {
 			Product product = new Product();
 			product.setName(name);
 			product.setPrice(price);
-			product.setImageData(file.getBytes());
-			product.setImageName(file.getOriginalFilename());
+			if(file !=null) {
+				product.setImageData(file.getBytes());
+				product.setImageName(file.getOriginalFilename());
+			}
+			
 			product.setCreatedBy("Owner");
 			Category category = categoryRepository.findById(category_id)
 					.orElseThrow(() -> new IllegalArgumentException("Invalid category Id"));

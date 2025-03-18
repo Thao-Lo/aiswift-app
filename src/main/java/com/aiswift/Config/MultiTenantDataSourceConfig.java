@@ -1,8 +1,5 @@
 package com.aiswift.Config;
-
-
 import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
-
 import com.aiswift.MultiTenancy.DataSourceUtil;
 import com.aiswift.MultiTenancy.TenantRoutingDataSource;
 
@@ -50,6 +46,7 @@ public class MultiTenantDataSourceConfig {
 	            EntityManagerFactoryBuilder builder,
 	            @Qualifier("multiTenantDataSource") DataSource multiTenantDataSource) {
 	        logger.info("Creating tenant entity manager factory");
+	     
 	        return builder
 	            .dataSource(multiTenantDataSource)  // Use the injected parameter
 	            .packages("com.aiswift.Tenant.Entity")

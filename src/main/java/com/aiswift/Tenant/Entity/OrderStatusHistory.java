@@ -47,9 +47,11 @@ public class OrderStatusHistory {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_user_id")
-    @JsonBackReference
-    private User updatedBy;
+    
+    @Column(name = "updated_by_id")
+    private Long updatedById;
+
+    @Column(name = "updated_by_type")
+    private String updatedByType;//  "TENANT_USER", "OWNER"
 }
 

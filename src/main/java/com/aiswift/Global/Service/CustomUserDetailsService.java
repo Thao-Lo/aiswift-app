@@ -22,7 +22,6 @@ import com.aiswift.Tenant.Repository.TenantUserRepository;
 import com.aiswift.dto.Global.CustomUserDetails;
 
 
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService{
 

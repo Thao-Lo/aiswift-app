@@ -27,13 +27,13 @@ import com.aiswift.dto.Tenant.ProductDto;
 
 @Conditional(TenantDatabaseCondition.class)  // Only create for tenant databases
 @RestController
-@RequestMapping("api/tenant/product")
+@RequestMapping("/api/tenant/product")
 public class ProductController {
 	
 	@Autowired
 	ProductService productService;
 	
-	@GetMapping("/")
+	@GetMapping
 	public ResponseEntity<List<Product>> getAllProducts(){
 		List<Product> products = productService.findAllProducts();
 		return ResponseEntity.ok(products);
@@ -53,12 +53,12 @@ public class ProductController {
 	    return ResponseEntity.ok(products);
 	}
 	
-	@PostMapping("/")
+	@PostMapping
 	public ResponseEntity<Product> createProduct(
 	   @RequestParam("productName") String name,
 	   @RequestParam("price") BigDecimal price,
 	   @RequestParam("categoryId") Long categoryId,
-	   @RequestParam("imageData") MultipartFile file
+	   @RequestParam(name="imageData",required=false) MultipartFile file
 	) {
 	   Product savedProduct = productService.addNewProduct(name, price, categoryId, file);
 	   return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);

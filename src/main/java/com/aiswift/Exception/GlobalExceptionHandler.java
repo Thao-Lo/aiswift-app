@@ -116,15 +116,6 @@ public class GlobalExceptionHandler {
 	         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	     }
 	     
-	     @ExceptionHandler(FileProcessingException.class)
-	     public ResponseEntity<ErrorResponse> handleFileProcessingException(FileProcessingException ex) {
-	         ErrorResponse error = new ErrorResponse(
-	             HttpStatus.INTERNAL_SERVER_ERROR.value(), 
-	             ex.getMessage(), 
-	             System.currentTimeMillis()
-	         );
-	         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-	     }
 
 	     @ExceptionHandler(RuntimeException.class)
 	     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
