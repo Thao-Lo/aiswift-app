@@ -24,7 +24,6 @@ public class JwtUtil {
 	private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build(); 
 
 	private SecretKey getSigningKey1() {
-//		System.out.println("Using key: " + Base64.getEncoder().encodeToString(SECRET_KEY.getEncoded()));
 		return SECRET_KEY;
 	}
 	

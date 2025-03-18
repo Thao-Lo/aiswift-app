@@ -12,7 +12,7 @@ import com.aiswift.Tenant.Repository.CategoryRepository;
 import com.aiswift.Tenant.Repository.ProductRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @Service
@@ -91,7 +91,7 @@ public class CategoryService {
 
 	}
 
-	@Transactional
+	@Transactional("tenantTransactionManager")
 	public void deleteCategory(Long id) {
 		Category category = getCategoryById(id);
 		if (categoryHasProducts(category)) {

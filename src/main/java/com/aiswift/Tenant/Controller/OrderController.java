@@ -23,7 +23,7 @@ import com.aiswift.dto.Tenant.OrderDetailDto;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @RestController
-@RequestMapping("api/tenant/order")
+@RequestMapping("/api/tenant/order")
 public class OrderController {
 	
 	@Autowired
@@ -32,7 +32,7 @@ public class OrderController {
 	@Autowired
 	OrderDetailService orderDetailService;
 	
-	@GetMapping("/")
+	@GetMapping
 	public ResponseEntity<List<Order>> getAllOrders(){
 		List<Order>orders =  orderService.getAllOrders();
 		return ResponseEntity.ok(orders);
@@ -46,7 +46,7 @@ public class OrderController {
 		
 	}
 	
-	@PutMapping("/{orderId}")
+	@PutMapping("/status/{orderId}")
 	public ResponseEntity<Order>updateOrderStatus(@PathVariable Long orderId,@RequestParam(name="orderStatus",required=false) OrderStatus status){
 		Order order = orderService.getOrderById(orderId);
 		order.setStatus(status);
@@ -62,7 +62,7 @@ public class OrderController {
 		
 	}
 	
-	@PostMapping("/")
+	@PostMapping
 	public ResponseEntity<Order>createOrder(@RequestBody List<OrderDetailDto> orderDetailDtos){
 		Order order = orderService.createOrderWithItems(orderDetailDtos);
 		return ResponseEntity.ok(order);

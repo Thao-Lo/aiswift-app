@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,7 +38,7 @@ private Long id;
 
 private String name;
 
-@OneToMany(mappedBy = "category")
+@OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
 @JsonManagedReference
 private List<Product>products;
 
@@ -46,7 +47,7 @@ private List<Product>products;
 @JoinColumn(name = "parent_id")
 private Category parent;
 
-@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 @JsonManagedReference
 private List<Category> subcategories = new ArrayList<>();
 

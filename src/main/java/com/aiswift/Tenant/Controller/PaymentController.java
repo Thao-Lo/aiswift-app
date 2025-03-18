@@ -26,7 +26,7 @@ import com.paypal.base.rest.PayPalRESTException;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @RestController
-@RequestMapping("api/tenant/payment")
+@RequestMapping("/api/tenant/payment")
 public class PaymentController {
 	
 	@Autowired

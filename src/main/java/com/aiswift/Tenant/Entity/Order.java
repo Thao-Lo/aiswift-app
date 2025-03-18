@@ -4,16 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import com.aiswift.Global.Entity.Owner;
-import org.springframework.context.annotation.Conditional;
-
-import com.aiswift.Config.TenantDatabaseCondition;
 import com.aiswift.Enum.OrderStatus;
 import com.aiswift.Enum.RefundStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,12 +14,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -41,7 +31,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(OrderEntityListener.class)
 @Entity
 @Table(name = "orders")
-@Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
+//@Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 public class Order {
 
 	@Id
@@ -72,13 +62,19 @@ public class Order {
 	@JsonManagedReference
 	private Set<OrderDetail> orderDetails;
 
-	@ManyToOne(fetch = FetchType.LAZY) // default type is eager
-	@JoinColumn(name = "user_id")
-	@JsonBackReference
-	@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "userType")
-	@JsonSubTypes({ @JsonSubTypes.Type(value = TenantUser.class, name = "TENANT_USER"),
-			@JsonSubTypes.Type(value = Owner.class, name = "OWNER") })
-	private User user;
+//	@ManyToOne(fetch = FetchType.LAZY) // default type is eager
+//	@JoinColumn(name = "user_id")
+//	@JsonBackReference
+//	@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "userType")
+//	@JsonSubTypes({ @JsonSubTypes.Type(value = TenantUser.class, name = "TENANT_USER"),
+//			@JsonSubTypes.Type(value = Owner.class, name = "OWNER") })
+//	private User user;
+	
+	@Column(name = "user_id")
+	private Long userId;
+
+	@Column(name = "user_type")
+	private String userType; // "TENANT_USER" or "OWNER"
 
 	@Column(columnDefinition = "TEXT")
 	private String customerInfo;

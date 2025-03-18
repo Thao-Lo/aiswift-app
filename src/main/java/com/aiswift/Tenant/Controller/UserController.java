@@ -20,7 +20,7 @@ import com.aiswift.Tenant.Service.UserService;
 
 
 @RestController
-@RequestMapping("api/tenant")
+@RequestMapping("/api/tenant")
 public class UserController {
 	@Autowired
 	private UserService userService;
