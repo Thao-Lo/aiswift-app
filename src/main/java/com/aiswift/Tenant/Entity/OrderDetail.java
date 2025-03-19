@@ -17,13 +17,15 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Table(name="order_details")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -35,13 +37,13 @@ public class OrderDetail  {
 OrderDetailKey id;
 
 @ManyToOne
-@JsonBackReference
+@JsonBackReference(value = "product-details")
 @MapsId("productId") // attribute of OrderDetailKey
 @JoinColumn(name="product_id")
 private Product product;
 
 @ManyToOne
-@JsonBackReference
+@JsonBackReference(value = "order-details")
 @MapsId("orderId") // attribute of OrderDetailKey
 @JoinColumn(name="order_id")
 private Order order;
@@ -54,7 +56,7 @@ private BigDecimal subtotal;
 
 @ManyToOne
 @JoinColumn(name="size_id")
-@JsonBackReference
+@JsonBackReference(value = "size-details")
 private Size size;
 
 @Column(name="created_by")	
