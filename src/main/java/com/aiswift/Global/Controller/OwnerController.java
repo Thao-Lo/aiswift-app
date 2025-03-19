@@ -1,18 +1,22 @@
 package com.aiswift.Global.Controller;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.aiswift.Global.DTO.TenantResponse;
 import com.aiswift.Global.Entity.Owner;
+import com.aiswift.Global.Entity.SubPlanDetail;
 import com.aiswift.Global.Entity.Tenant;
 import com.aiswift.Global.Service.OwnerService;
+import com.aiswift.Global.Service.SubPlanDetailService;
+import com.aiswift.Global.Service.SubscriptionPlanService;
 import com.aiswift.Global.Service.TenantService;
 import com.aiswift.Tenant.Entity.TenantUser;
 import com.aiswift.Tenant.Service.UserService;
-import com.aiswift.dto.Global.TenantResponse;
-import com.aiswift.dto.Tenant.UserResponse;
+import com.aiswift.DTO.Tenant.UserResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +39,12 @@ public class OwnerController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private SubPlanDetailService subPlanDetailService;
+	
+	@Autowired
+	private SubscriptionPlanService subPlanService;
 	
 	@PreAuthorize("hasRole('OWNER')")
 	@GetMapping("/owner/tenant-list")
@@ -75,5 +85,21 @@ public class OwnerController {
 		return new ResponseEntity<>(Map.of(
 				"message", "Successfully get User List", 
 				"UserList", userResponse ), HttpStatus.OK);
+	}
+	@GetMapping("/owner/plan-details")
+	public ResponseEntity<Object> getSubscriptionPlanDetail(Principal principal) {
+		Owner owner = ownerService.getOwnerWithSubPlanDetails(principal.getName());
+
+		SubPlanDetail planDetail = subPlanDetailService.getLatestPlanDetailByOwner(owner);		
+		
+		// calculate total plan fee
+		BigDecimal totalPlanFee = subPlanService.calculatePlanFee(
+				planDetail.getAdditionalAdminCount(),planDetail.getAdditionalTenantCount(), planDetail.getSubscriptionPlan());
+		
+		return new ResponseEntity<>(
+				Map.of("message", "Successfully get Subscription plan details.",
+						"planDetails", planDetail,
+						"planFee", totalPlanFee),
+				HttpStatus.OK);
 	}
 }
