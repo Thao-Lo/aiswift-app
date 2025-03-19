@@ -1,7 +1,9 @@
 package com.aiswift.Exception;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -75,17 +77,59 @@ public class GlobalExceptionHandler {
 	    	    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	    	}
 	     
-	     // Catch-all method for unexpected exceptions
+
 	     @ExceptionHandler(Exception.class)
 	     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+	         System.err.println("Exception caught in handler: " + ex.getMessage());
+	         
+	         // Log stack trace
+	         StackTraceElement[] elements = ex.getStackTrace();
+	         for (int i = 0; i < Math.min(10, elements.length); i++) {
+	             System.err.println(elements[i]);
+	         }
+	         
 	         ErrorResponse error = new ErrorResponse(
-	             HttpStatus.INTERNAL_SERVER_ERROR.value(), 
-	             "An unexpected error occurred: " + ex.getMessage(), 
+	             HttpStatus.INTERNAL_SERVER_ERROR.value(),
+	             "An unexpected error occurred: " + ex.getMessage(),
 	             System.currentTimeMillis()
 	         );
 	         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	     }
-	     
+
+	     @ExceptionHandler(Error.class) //for any other error than stackoverflow
+	     public ResponseEntity<ErrorResponse> handleError(Error error) {
+	         System.err.println("CRITICAL ERROR CAUGHT IN HANDLER: " + error.getMessage());
+	         
+	         // Log the stack trace to help identify the issue
+	         StackTraceElement[] elements = error.getStackTrace();
+	         for (int i = 0; i < Math.min(10, elements.length); i++) {
+	             System.err.println(elements[i]);
+	         }
+	         
+	         	 ErrorResponse response = new ErrorResponse(
+	             HttpStatus.INTERNAL_SERVER_ERROR.value(),
+	             "Critical system error: " + error.getClass().getSimpleName(),
+	             System.currentTimeMillis()
+	         );
+	         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	     }
+	     @ExceptionHandler(StackOverflowError.class)
+	     public ResponseEntity<Map<String, Object>> handleStackOverflowError(StackOverflowError error) {
+	         System.err.println("STACK OVERFLOW ERROR CAUGHT IN DEDICATED HANDLER");
+	         
+	         // Log the stack trace elements to see the recursive pattern
+	         StackTraceElement[] elements = error.getStackTrace();
+	         for (int i = 0; i < Math.min(10, elements.length); i++) {
+	             System.err.println(elements[i]);
+	         }
+	         
+	         Map<String, Object> errorResponse = new HashMap<>();
+	         errorResponse.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+	         errorResponse.put("message", "Internal server error: Stack overflow");
+	         errorResponse.put("timestamp", System.currentTimeMillis());
+	         
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	     }
 	     @ExceptionHandler(PayPalRESTException.class)
 	     public ResponseEntity<ErrorResponse> handlePayPalRESTException(PayPalRESTException ex) {
 	         ErrorResponse error = new ErrorResponse(
