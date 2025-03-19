@@ -1,0 +1,8 @@
+CREATE TABLE `tenant_admin_limit` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `database_name` VARCHAR(100) NOT NULL,
+  `current_admin_count` INT NULL DEFAULT 0,
+  `max_admin_count` INT NULL DEFAULT 1,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   PRIMARY KEY (`id`));
