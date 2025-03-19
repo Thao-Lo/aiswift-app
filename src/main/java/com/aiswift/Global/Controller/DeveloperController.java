@@ -3,13 +3,10 @@ package com.aiswift.Global.Controller;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.aiswift.Global.Entity.Developer;
-import com.aiswift.Global.Entity.Owner;
-import com.aiswift.Global.Service.DeveloperService;
-import com.aiswift.Global.Service.OwnerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +15,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aiswift.Global.DTO.OwnerResponse;
+import com.aiswift.Global.Entity.Developer;
+import com.aiswift.Global.Entity.Owner;
+import com.aiswift.Global.Service.DeveloperService;
+import com.aiswift.Global.Service.OwnerService;
+
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/developer")
 public class DeveloperController {
 
 	@Autowired
@@ -28,14 +31,15 @@ public class DeveloperController {
 
 	@Autowired
 	OwnerService ownerService;
-
-	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("/admin/owner-list")
+	
+	private final static Logger logger = LoggerFactory.getLogger(DeveloperController.class);	
+	
+	@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
+	@GetMapping("/owner-list")
 	public ResponseEntity<Object> getOwnerList(Principal principal) {
-		System.out.println("I am in developer controller");
-	    Optional<Developer> developerOptional = developerService.getDeveloperByEmail(principal.getName());
-	    
-	    if(developerOptional.isPresent()) {
+	
+	    Developer developer = developerService.getDeveloperByEmail(principal.getName());	    
+	  
 	        List<Owner> owners = ownerService.findAll();
 	        List<OwnerResponse> ownerResponses = owners.stream()
 	            .map(owner -> new OwnerResponse(
@@ -45,16 +49,13 @@ public class DeveloperController {
 	                owner.getTenants()
 	            ))
 	            .collect(Collectors.toList());
-	            
+	    logger.info("Successfully retrieved owner list.");
+	    
 	        return new ResponseEntity<>(Map.of(
-	            "message", "Successfully get Owner List", 
+	            "message", "Successfully retrieved the Owner List", 
 	            "ownerList", ownerResponses), 
 	            HttpStatus.OK);
-	    } else {
-	        return new ResponseEntity<>(Map.of(
-	            "message", "Developer not found"),
-	            HttpStatus.NOT_FOUND);
-	    }
+	   
 	}
 	
 	
