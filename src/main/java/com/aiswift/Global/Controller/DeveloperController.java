@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aiswift.Global.DTO.OwnerResponse;
-import com.aiswift.Global.Entity.Developer;
 import com.aiswift.Global.Entity.Owner;
 import com.aiswift.Global.Service.DeveloperService;
 import com.aiswift.Global.Service.OwnerService;
@@ -38,7 +37,6 @@ public class DeveloperController {
 	@GetMapping("/owner-list")
 	public ResponseEntity<Object> getOwnerList(Principal principal) {
 	
-	    Developer developer = developerService.getDeveloperByEmail(principal.getName());	    
 	  
 	        List<Owner> owners = ownerService.findAll();
 	        List<OwnerResponse> ownerResponses = owners.stream()

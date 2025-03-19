@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aiswift.Enum.StripePaymentType;
-import com.aiswift.Exception.UnExpectedStatusException;
 import com.aiswift.Global.Entity.Payment;
 import com.aiswift.Global.Service.PaymentService;
 import com.aiswift.Global.Service.StripeService;

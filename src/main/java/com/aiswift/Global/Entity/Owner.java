@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-//@EqualsAndHashCode (callSuper = true)
+@EqualsAndHashCode (callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

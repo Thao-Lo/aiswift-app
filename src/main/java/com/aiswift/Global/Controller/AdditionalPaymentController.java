@@ -3,7 +3,6 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -27,7 +26,6 @@ import com.aiswift.Global.Service.PaymentService;
 import com.aiswift.Global.Service.ProrataDetailService;
 import com.aiswift.Global.Service.StripeService;
 import com.aiswift.Global.Service.SubPlanDetailService;
-import com.aiswift.Global.Service.SubscriptionPlanService;
 import com.stripe.exception.StripeException;
 
 import jakarta.validation.constraints.Min;
@@ -38,8 +36,6 @@ import jakarta.validation.constraints.Pattern;
 @RestController
 @RequestMapping("/api/owner")
 public class AdditionalPaymentController {
-	@Autowired
-	private SubscriptionPlanService subPlanService;
 	@Autowired
 	private SubPlanDetailService subPlanDetailService;
 
