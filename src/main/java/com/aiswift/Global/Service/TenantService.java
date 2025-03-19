@@ -21,9 +21,6 @@ import com.aiswift.Global.Repository.TenantRepository;
 import com.aiswift.MultiTenancy.DataSourceUtil;
 import com.aiswift.MultiTenancy.TenantRoutingDataSource;
 
-
-
-
 @Service
 public class TenantService {
     @Autowired
