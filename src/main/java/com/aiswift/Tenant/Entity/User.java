@@ -56,7 +56,6 @@ public abstract class User implements Serializable {
 	@Column(name = "updated_at")
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
-    // Common user methods
 	
 	@Transient
     private List<Order> orders = new ArrayList<>();

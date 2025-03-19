@@ -3,7 +3,6 @@ import org.springframework.context.annotation.Conditional;
 import com.aiswift.Config.TenantDatabaseCondition;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(OrderEntityListener.class)
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @Entity
 @Table(name = "paypal_configs")

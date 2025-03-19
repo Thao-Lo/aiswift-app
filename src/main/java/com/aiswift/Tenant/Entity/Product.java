@@ -7,7 +7,6 @@ import java.util.Base64;
 import java.util.List;
 
 import org.springframework.context.annotation.Conditional;
-
 import com.aiswift.Config.TenantDatabaseCondition;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -27,11 +26,13 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
-@Data 
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity // for mapping to db 
@@ -84,12 +85,12 @@ private BigDecimal price;
 @Column(columnDefinition = "TEXT")
 private String description;
 
-@OneToMany(mappedBy = "product") // name of object product in OrderDetail
-@JsonManagedReference
+@OneToMany(mappedBy = "product",fetch = FetchType.EAGER) // name of object product in OrderDetail
+@JsonManagedReference(value = "product-details") //missing value will cause stackoverflow error 
 private List<OrderDetail>orderDetails;
 
 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.EAGER) // make sure when I call product.getSize() all related sizes is loaded from database
-@JsonManagedReference
+@JsonManagedReference(value = "product-sizes")
 private List<Size> sizes = new ArrayList<>();
 
 @PrePersist
@@ -100,6 +101,7 @@ protected void onCreate() {
 @PreUpdate 
 protected void onUpdate() {
 	updatedAt = LocalDateTime.now();
+	
 }
 
 }
