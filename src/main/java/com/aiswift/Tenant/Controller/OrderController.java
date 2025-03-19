@@ -19,7 +19,7 @@ import com.aiswift.Enum.OrderStatus;
 import com.aiswift.Tenant.Entity.Order;
 import com.aiswift.Tenant.Service.OrderDetailService;
 import com.aiswift.Tenant.Service.OrderService;
-import com.aiswift.dto.Tenant.OrderDetailDto;
+import com.aiswift.DTO.Tenant.OrderDetailDto;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @RestController

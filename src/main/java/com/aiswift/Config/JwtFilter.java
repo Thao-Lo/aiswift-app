@@ -20,9 +20,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.aiswift.Common.Service.CustomUserDetailsService;
 import com.aiswift.Global.Entity.Owner;
 import com.aiswift.Global.Entity.Tenant;
-import com.aiswift.Global.Service.CustomUserDetailsService;
 import com.aiswift.Global.Service.OwnerService;
 import com.aiswift.Global.Service.TenantService;
 import com.aiswift.MultiTenancy.JwtUtil;

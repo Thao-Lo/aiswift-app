@@ -1,23 +1,29 @@
 -- table: owners
-CREATE TABLE `global_multi_tenant`.`owners` (
+CREATE TABLE `owners` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NULL DEFAULT NULL,
   `status` ENUM('ACTIVE', 'DISABLE') NOT NULL DEFAULT 'ACTIVE',
+  `created_by` VARCHAR(100) NOT NULL,
+  `updated_by` VARCHAR(100) NULL DEFAULT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `reset_token` VARCHAR(100) NULL DEFAULT NULL,
+  `reset_token_expiry` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),  
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);
   
   -- table: tenants
-  CREATE TABLE `global_multi_tenant`.`tenants` (
+  CREATE TABLE `tenants` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `owner_id` BIGINT NOT NULL,
   `owner_role` ENUM('OWNER','ADMIN') NOT NULL DEFAULT 'OWNER',
   `name` VARCHAR(100) NOT NULL,
   `db_name` VARCHAR(100) NOT NULL,
+  `current_admin_count` INT NOT NULL DEFAULT 0,
+  `max_admin_count`INT NOT NULL DEFAULT 1,
   `status` ENUM('ACTIVE', 'DISABLE') NOT NULL DEFAULT 'ACTIVE',
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -28,6 +34,6 @@ CREATE TABLE `global_multi_tenant`.`owners` (
   INDEX `fk_owner_id_idx` (`owner_id` ASC) VISIBLE,
   CONSTRAINT `fk_owner_id`
     FOREIGN KEY (`owner_id`)
-    REFERENCES `global_multi_tenant`.`owners` (`id`)
+    REFERENCES `owners` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);

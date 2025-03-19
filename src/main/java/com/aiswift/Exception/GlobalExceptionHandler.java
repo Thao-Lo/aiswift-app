@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.aiswift.dto.Tenant.ErrorResponse;
+import com.aiswift.DTO.Tenant.ErrorResponse;
 import com.google.zxing.WriterException;
 import com.paypal.base.rest.PayPalRESTException;
 
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 	         FileProcessingException.class,
 	         IllegalStateException.class
 	     })
-	     public ResponseEntity<ErrorResponse> handleBadRequestExceptions(IllegalStateException ex) {
+	     public ResponseEntity<ErrorResponse> handleBadRequestExceptions(Exception ex) {
 	         ErrorResponse error = new ErrorResponse(
 	             HttpStatus.BAD_REQUEST.value(), 
 	             ex.getMessage(), 
@@ -170,4 +170,36 @@ public class GlobalExceptionHandler {
 	         );
 	         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	     }
+	     
+	     @ExceptionHandler(NoDataFoundException.class)
+	     public ResponseEntity<ErrorResponse> handleNoDataFoundException(NoDataFoundException ex) {
+	         ErrorResponse error = new ErrorResponse(
+	             HttpStatus.NOT_FOUND.value(), 
+	             ex.getMessage(), 
+	             System.currentTimeMillis()
+	         );
+	         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+	     }
+	     
+	     @ExceptionHandler(UnAuthorizedException.class)
+	    	 public ResponseEntity<ErrorResponse> handleUnAuthorizedException(UnAuthorizedException ex) {
+	    		 ErrorResponse error = new ErrorResponse(
+	    				 HttpStatus.UNAUTHORIZED.value(),
+	    				 ex.getMessage(),
+	    				 System.currentTimeMillis()	    				 
+	    	);
+	    	return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);		 
+	    }
+	     
+	     @ExceptionHandler(UnExpectedStatusException.class)
+    	 public ResponseEntity<ErrorResponse> handleUnExpectedStatusException(UnExpectedStatusException ex) {
+    		 ErrorResponse error = new ErrorResponse(
+    				 HttpStatus.BAD_REQUEST.value(),
+    				 ex.getMessage(),
+    				 System.currentTimeMillis()	    				 
+    	);
+    	return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);		 
+    }
+	     
+	     
 }
