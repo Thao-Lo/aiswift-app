@@ -53,7 +53,7 @@ CREATE TABLE `orders` (
   `tenantId` bigint DEFAULT NULL,
   `total_price` decimal(10,2) DEFAULT NULL,
   `updated_at` datetime(6) DEFAULT NULL,
-  `user_id` bigint DEFAULT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
   `user_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
