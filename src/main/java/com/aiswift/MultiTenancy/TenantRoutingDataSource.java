@@ -1,5 +1,6 @@
 package com.aiswift.MultiTenancy;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,12 +8,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-
+@Component
+@Lazy
 public class TenantRoutingDataSource extends AbstractRoutingDataSource{
 	
 	@Autowired
@@ -20,7 +24,13 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource{
 	
 	private final Map<Object, Object> dataSourceMap = new ConcurrentHashMap<>();
 	private final Map<Object, Long> lastUsedTime = new ConcurrentHashMap<>();
-
+	
+	public TenantRoutingDataSource(DataSourceUtil dataSourceUtil) {
+		this.dataSourceUtil = dataSourceUtil;
+		setTargetDataSources(new HashMap<>());
+		setDefaultTargetDataSource(dataSourceUtil.createDataSource("global_multi_tenant"));
+		afterPropertiesSet();
+	}
 		
 	@Override
 	protected Object determineCurrentLookupKey() {	
@@ -63,18 +73,18 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource{
     public void addDataSource(String databaseName, DataSource dataSource) {
     	System.out.println("I am adding dataSource name: "+ databaseName);
     	if(!dataSourceMap.containsKey(databaseName)) {
-    		  dataSourceMap.put(databaseName, dataSource);        
-    	        setTargetDataSources(dataSourceMap);
-    	        afterPropertiesSet(); // Reload data sources dynamically
+    		this.dataSourceMap.put(databaseName, dataSource);
+			super.setTargetDataSources(dataSourceMap);
+			super.afterPropertiesSet(); // Reload data sources dynamically
     	}      
     }
     
-    @Override
-    public void afterPropertiesSet() {
-        // Set a default tenant if none is set
-        if (TenantContext.getCurrentTenant() == null) {
-        	TenantContext.setCurrentTenant("default");
-        }
-        super.afterPropertiesSet();
-    }
+//    @Override
+//    public void afterPropertiesSet() {
+//        // Set a default tenant if none is set
+//        if (TenantContext.getCurrentTenant() == null) {
+//        	TenantContext.setCurrentTenant("default");
+//        }
+//        super.afterPropertiesSet();
+//    }
 }

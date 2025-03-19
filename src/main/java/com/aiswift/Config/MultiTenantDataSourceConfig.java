@@ -8,6 +8,7 @@ import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -31,12 +32,14 @@ public class MultiTenantDataSourceConfig {
 	private DataSourceUtil dataSourceUtil;
 	private static final Logger logger = LoggerFactory.getLogger(MultiTenantDataSourceConfig.class);
 	
-	@Primary // Ensure this is the main DataSource used
-	@Bean
-	public TenantRoutingDataSource multiTenantDataSource() {
-		TenantRoutingDataSource tenantRoutingDataSource = new TenantRoutingDataSource();
-		tenantRoutingDataSource.addDataSource("default", dataSourceUtil.createDataSource("global_multi_tenant"));
-				
+	private final TenantRoutingDataSource tenantRoutingDataSource;
+	public MultiTenantDataSourceConfig (TenantRoutingDataSource tenantRoutingDataSource) {
+		this.tenantRoutingDataSource = tenantRoutingDataSource;
+	}
+	
+	@Bean(name = "multiTenantDataSource")	
+	public TenantRoutingDataSource multiTenantDataSource() {		
+		tenantRoutingDataSource.addDataSource("default", dataSourceUtil.createDataSource("global_multi_tenant"));				
 		return tenantRoutingDataSource;
 	}
 
