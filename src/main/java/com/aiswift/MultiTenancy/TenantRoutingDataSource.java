@@ -79,12 +79,4 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource{
     	}      
     }
     
-//    @Override
-//    public void afterPropertiesSet() {
-//        // Set a default tenant if none is set
-//        if (TenantContext.getCurrentTenant() == null) {
-//        	TenantContext.setCurrentTenant("default");
-//        }
-//        super.afterPropertiesSet();
-//    }
 }
