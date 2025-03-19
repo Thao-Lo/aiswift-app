@@ -11,9 +11,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,14 +21,15 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@EntityListeners(OrderEntityListener.class)
 @Entity
 @Table(name = "orders")
 //@Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
@@ -56,10 +57,10 @@ public class Order {
 	@Column(name = "total_price", precision = 10, scale = 2)
 	private BigDecimal totalPrice;
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true // Remove order details no longer
-																					// associated
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, // Remove order details no longer
+	fetch=FetchType.EAGER																				// associated
 	)
-	@JsonManagedReference
+	@JsonManagedReference(value = "order-details")
 	private Set<OrderDetail> orderDetails;
 
 //	@ManyToOne(fetch = FetchType.LAZY) // default type is eager
@@ -71,7 +72,7 @@ public class Order {
 //	private User user;
 	
 	@Column(name = "user_id")
-	private Long userId;
+	private String userId;
 
 	@Column(name = "user_type")
 	private String userType; // "TENANT_USER" or "OWNER"
