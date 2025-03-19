@@ -3,6 +3,8 @@ package com.aiswift.Tenant.Controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
@@ -24,6 +26,9 @@ import com.aiswift.dto.Tenant.PaypalPaymentResponse;
 import com.google.zxing.WriterException;
 import com.paypal.base.rest.PayPalRESTException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @RestController
 @RequestMapping("/api/tenant/payment")
@@ -37,9 +42,11 @@ public class PaymentController {
 	
 	@Autowired
 	RefundService refundService;
+	
+	
 
 	@GetMapping("/paypal/{orderId}")
-	public ResponseEntity<String> createPaypalPaymentWithQRCode(@RequestParam(name="email",required=true) String paypalEmail,@RequestParam(name="email",required=true)  BigDecimal totalPayment,@RequestParam(name="email",required=true)  String currency, @PathVariable Long orderId) throws WriterException, IOException, PayPalRESTException{
+	public ResponseEntity<String> createPaypalPaymentWithQRCode(@RequestParam(name="email",required=true) String paypalEmail,@RequestParam(name="totalAmount",required=true)  BigDecimal totalPayment,@RequestParam(name="currency",required=true)  String currency, @PathVariable Long orderId) throws WriterException, IOException, PayPalRESTException{
 		byte[] qrCodeBytes= paypalService.createPaymentWithQRCode(paypalEmail, totalPayment, currency, orderId);
 		String base64Image = Base64.getEncoder().encodeToString(qrCodeBytes);
 		return ResponseEntity.ok(base64Image);
@@ -65,6 +72,33 @@ public class PaymentController {
 		}
 		   // Handle non-completed status
 		   throw new IllegalStateException("Payment not completed. Status: " + paymentStatus);
+	}
+	
+	@GetMapping("/cancel")
+	public ResponseEntity<Map<String, Object>> handlePaymentCancellation(
+	        @RequestParam(required = false) String orderId,
+	        @RequestParam(required = false) BigDecimal amount) {
+	    
+	    log.info("Payment cancellation API request received. Order ID: {}, Amount: {}", orderId, amount);
+	    Map<String, Object> response = new HashMap<>();
+	    
+	    // If we have an order ID, update the order status
+	    if (orderId != null) {
+	        Long orderIdLong = Long.parseLong(orderId);
+	        Order order = orderService.getOrderById(orderIdLong);
+	        orderService.cancelOrder(order);
+	        log.info("Order {} status updated to VOIDED after payment cancellation", orderId);
+	        
+	        response.put("orderId", orderId);
+	        response.put("amount", amount);
+	        response.put("status", "CANCELED");
+	        response.put("message", "Payment was canceled. Order has been voided.");
+	    } else {
+	        response.put("status", "CANCELED");
+	        response.put("message", "Payment was canceled. No order ID was provided.");
+	    }
+	    
+	    return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/cash/refund-request")
