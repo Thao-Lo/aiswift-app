@@ -1,9 +1,10 @@
-package com.aiswift.Global.Service;
+package com.aiswift.Common.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.aiswift.Common.DTO.CustomUserDetails;
 import com.aiswift.Enum.Status;
+
 import com.aiswift.Global.Entity.Developer;
 import com.aiswift.Global.Entity.Owner;
 import com.aiswift.Global.Repository.DeveloperRepository;
@@ -19,9 +22,8 @@ import com.aiswift.Global.Repository.OwnerRepository;
 import com.aiswift.MultiTenancy.TenantContext;
 import com.aiswift.Tenant.Entity.TenantUser;
 import com.aiswift.Tenant.Repository.TenantUserRepository;
-import com.aiswift.dto.Global.CustomUserDetails;
 
-
+@Lazy
 @Service
 public class CustomUserDetailsService implements UserDetailsService{
 

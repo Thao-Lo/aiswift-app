@@ -1,11 +1,9 @@
 package com.aiswift.Config;
 
-
-
 import java.util.HashMap;
 
 import javax.sql.DataSource;
-import org.flywaydb.core.Flyway;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -20,7 +18,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.aiswift.MultiTenancy.DataSourceUtil;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
@@ -37,8 +34,7 @@ public class DataSourceConfig {
 
     @Bean(name = "globalDataSource")
     @Primary
-    public DataSource globalDataSource() {
-    	System.out.println("this is global datasource");
+    public DataSource globalDataSource() {    	
         return dataSourceUtil.createDataSource("global_multi_tenant");
     }
     
@@ -49,11 +45,9 @@ public class DataSourceConfig {
     }
 
     @Bean(name = "globalEntityManagerFactory")
-//    @DependsOn("flyway") // Flyway must run before Hibernate
     public LocalContainerEntityManagerFactoryBean globalEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier("globalDataSource") DataSource dataSource) {
-    	System.out.println(" I am in global entity manager factory");
+            @Qualifier("globalDataSource") DataSource dataSource) {    	
         return builder
                 .dataSource(dataSource)
                 .packages("com.aiswift.Global.Entity")
@@ -63,20 +57,7 @@ public class DataSourceConfig {
 
     @Bean(name = "globalTransactionManager")
     public PlatformTransactionManager globalTransactionManager(
-            @Qualifier("globalEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
-    	System.out.println(" I am in global transaction manager");
-
+            @Qualifier("globalEntityManagerFactory") EntityManagerFactory entityManagerFactory) { 
         return new JpaTransactionManager(entityManagerFactory);
-    }
-
-    @PostConstruct
-    public void runFlywayMigration() {
-    	System.out.println("I am in run flyway migration");
-        Flyway flyway = Flyway.configure()
-                .dataSource(dataSourceUtil.createDataSource("global_multi_tenant"))
-                .locations("classpath:db/migration/global")
-                .baselineOnMigrate(true)
-                .load();
-        flyway.migrate();
     }
 }

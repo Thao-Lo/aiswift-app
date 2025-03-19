@@ -1,4 +1,4 @@
-package com.aiswift.Global.Controller;
+package com.aiswift.Common.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aiswift.Global.Service.CustomUserDetailsService;
+import com.aiswift.Common.Service.CustomUserDetailsService;
 import com.aiswift.MultiTenancy.JwtUtil;
 
 import jakarta.servlet.http.Cookie;

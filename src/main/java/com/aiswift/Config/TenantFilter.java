@@ -25,7 +25,6 @@ public class TenantFilter extends OncePerRequestFilter{
 
 	private final ObjectProvider<TenantService> tenantServiceProvider;
     private static final Logger logger = LoggerFactory.getLogger(TenantFilter.class);
-
    
 	@Autowired
 	public TenantFilter(ObjectProvider<TenantService> tenantServiceProvider) {
@@ -74,9 +73,6 @@ public class TenantFilter extends OncePerRequestFilter{
                  logger.info("Setting DB to: {} in thread: {}", tenant.getDbName(), Thread.currentThread().getId());
         
             }
-            	
-            	
-            
 
             filterChain.doFilter(request, response);
         } finally {
