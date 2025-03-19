@@ -63,9 +63,10 @@ public class OrderController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Order>createOrder(@RequestBody List<OrderDetailDto> orderDetailDtos){
+	public ResponseEntity<Order> createOrder(@RequestBody List<OrderDetailDto> orderDetailDtos){
+		
 		Order order = orderService.createOrderWithItems(orderDetailDtos);
-		return ResponseEntity.ok(order);
+        return ResponseEntity.ok(order);
 	}
 	
 	@DeleteMapping("/{orderId}")
