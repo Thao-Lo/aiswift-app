@@ -23,7 +23,7 @@ public class RefundService {
 	@Autowired
 	OrderRepository orderRepository;
 
-	@Transactional
+	@Transactional("tenantTransactionManager")
 	public Order requestRefund(Long orderId) {
 		Order order = orderService.getOrderById(orderId);
 
@@ -46,7 +46,7 @@ public class RefundService {
 		return orderRepository.save(order);
 	}
 	
-	@Transactional
+	@Transactional("tenantTransactionManager")
     public Order processRefund(Long orderId, boolean approve) {
         Order order = orderService.getOrderById(orderId);
 

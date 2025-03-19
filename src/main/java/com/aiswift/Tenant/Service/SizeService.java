@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aiswift.Config.TenantDatabaseCondition;
 import com.aiswift.Tenant.Entity.OrderDetail;
@@ -16,7 +17,6 @@ import com.aiswift.Tenant.Repository.ProductRepository;
 import com.aiswift.Tenant.Repository.SizeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @Service
@@ -32,6 +32,9 @@ public class SizeService {
 	private OrderDetailRepository orderDetailRepository;
 
 	public Size getSizeById(Long sizeId) {
+		if (sizeId == null) {
+	        return null; // Or throw a custom exception, or return a default size
+	    }
 		return sizeRepository.findById(sizeId)
 				.orElseThrow(() -> new EntityNotFoundException("Size not found with id: " + sizeId));
 	}
@@ -52,7 +55,7 @@ public class SizeService {
 		return sizeRepository.save(size);
 	}
 
-	@Transactional
+	@Transactional("tenantTransactionManager")
 	public Size updateSize(Long sizeId, String sizeName, BigDecimal price) {
 		Size size = sizeRepository.findById(sizeId)
 				.orElseThrow(() -> new EntityNotFoundException("Size not found with id: " + sizeId));
@@ -65,7 +68,7 @@ public class SizeService {
 		return sizeRepository.save(size);
 	}
 
-	@Transactional
+	@Transactional("tenantTransactionManager")
 	public void deleteSize(Long id) {
 
 		Size size = sizeRepository.findById(id)
