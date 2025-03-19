@@ -49,7 +49,7 @@ public class CustomUserDetailsService implements UserDetailsService{
         		Developer developer = developerRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Developer Not found: " + email));
         		
         		List<GrantedAuthority> authorities = new ArrayList<>();
-        		authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        		authorities.add(new SimpleGrantedAuthority("ROLE_"+developer.getRole().name()));
                 return new CustomUserDetails(
                 		developer.getEmail(),
                 		developer.getPassword(),
