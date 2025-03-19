@@ -22,7 +22,7 @@ import com.aiswift.Tenant.Service.SizeService;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @RestController
-@RequestMapping("/api/tenant/product/size")
+@RequestMapping("/api/tenant/product")
 public class SizeController {
 
 	@Autowired
@@ -31,19 +31,19 @@ public class SizeController {
 	@Autowired
 	ProductService productService;
 
-	@GetMapping("/{sizeId}")
+	@GetMapping("/size/{sizeId}")
 	public ResponseEntity<Size> getSizeById(@PathVariable Long sizeId) {
 		Size size = sizeService.getSizeById(sizeId);
 		return ResponseEntity.ok(size);
 	}
 
-	@GetMapping("/{productId}")
+	@GetMapping("/{productId}/size")
 	public ResponseEntity<List<Size>> getAllSizesByProductId(@PathVariable Long productId) {
 		List<Size> sizes = sizeService.getSizesByProductId(productId);
 		return ResponseEntity.ok(sizes);
 	}
 
-	@PostMapping("/{productId}")
+	@PostMapping("/{productId}/size")
 	public ResponseEntity<Size> addSizeToProduct(@PathVariable Long productId, @RequestParam(name = "name") String name,
 			@RequestParam(name = "priceDifference", defaultValue = "0.0") BigDecimal priceDifference) {
 
@@ -57,7 +57,7 @@ public class SizeController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(size);
 	}
 
-	@PutMapping("{sizeId}")
+	@PutMapping("/size/{sizeId}")
 	public ResponseEntity<Size> updateSize(@RequestParam(required = true, name = "name") String sizeName,
 			@RequestParam(required = true, name = "id") Long sizeId,
 			@RequestParam(required = true, name = "price") BigDecimal price) {
@@ -67,7 +67,7 @@ public class SizeController {
 
 	}
 
-	@DeleteMapping("/{sizeId}")
+	@DeleteMapping("/size/{sizeId}")
 	public ResponseEntity<Void> deleteSize(@PathVariable Long sizeId) {
 	   sizeService.deleteSize(sizeId);
 	   return ResponseEntity.noContent().build();
