@@ -20,7 +20,7 @@ import com.aiswift.Tenant.Repository.CategoryRepository;
 import com.aiswift.Tenant.Repository.OrderDetailRepository;
 import com.aiswift.Tenant.Repository.ProductRepository;
 import com.aiswift.Tenant.Repository.SizeRepository;
-import com.aiswift.dto.Tenant.ProductDto;
+import com.aiswift.DTO.Tenant.ProductDto;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

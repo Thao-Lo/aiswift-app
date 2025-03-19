@@ -17,8 +17,8 @@ import com.aiswift.Tenant.Entity.Size;
 import com.aiswift.Tenant.Entity.StatusHistorySerializer;
 import com.aiswift.Tenant.Entity.TenantUser;
 import com.aiswift.Tenant.Repository.OrderRepository;
-import com.aiswift.dto.Tenant.OrderDetailDto;
-import com.aiswift.dto.Tenant.OrderStatusDto;
+import com.aiswift.DTO.Tenant.OrderDetailDto;
+import com.aiswift.DTO.Tenant.OrderStatusDto;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;

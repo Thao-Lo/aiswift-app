@@ -20,7 +20,7 @@ import com.aiswift.Tenant.Entity.PayPal;
 import com.aiswift.Tenant.Service.OrderService;
 import com.aiswift.Tenant.Service.PaypalService;
 import com.aiswift.Tenant.Service.RefundService;
-import com.aiswift.dto.Tenant.PaypalPaymentResponse;
+import com.aiswift.DTO.Tenant.PaypalPaymentResponse;
 import com.google.zxing.WriterException;
 import com.paypal.base.rest.PayPalRESTException;
 
