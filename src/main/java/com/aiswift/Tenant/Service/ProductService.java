@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aiswift.Common.DTO.CustomUserDetails;
 import com.aiswift.Config.TenantDatabaseCondition;
 import com.aiswift.Exception.FileProcessingException;
 import com.aiswift.Tenant.Entity.Category;
@@ -22,7 +23,6 @@ import com.aiswift.Tenant.Repository.CategoryRepository;
 import com.aiswift.Tenant.Repository.OrderDetailRepository;
 import com.aiswift.Tenant.Repository.ProductRepository;
 import com.aiswift.Tenant.Repository.SizeRepository;
-import com.aiswift.dto.Global.CustomUserDetails;
 import com.aiswift.dto.Tenant.ProductDto;
 
 import jakarta.persistence.EntityNotFoundException;

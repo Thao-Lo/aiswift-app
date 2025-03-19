@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.aiswift.Common.DTO.CustomUserDetails;
 import com.aiswift.Config.TenantDatabaseCondition;
 import com.aiswift.Enum.OrderStatus;
 import com.aiswift.Global.Entity.Tenant;
@@ -22,7 +24,6 @@ import com.aiswift.Tenant.Entity.Size;
 import com.aiswift.Tenant.Entity.StatusHistorySerializer;
 import com.aiswift.Tenant.Entity.TenantUser;
 import com.aiswift.Tenant.Repository.OrderRepository;
-import com.aiswift.dto.Global.CustomUserDetails;
 import com.aiswift.dto.Tenant.OrderDetailDto;
 import com.aiswift.dto.Tenant.OrderStatusDto;
 

@@ -10,8 +10,6 @@ import com.aiswift.Global.Entity.Developer;
 import com.aiswift.Global.Entity.Owner;
 import com.aiswift.Global.Service.DeveloperService;
 import com.aiswift.Global.Service.OwnerService;
-import com.aiswift.dto.Global.OwnerResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
