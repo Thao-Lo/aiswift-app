@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.aiswift.Config.TenantDatabaseCondition;
 import com.aiswift.Enum.OrderStatus;
+import com.aiswift.Tenant.DTO.OrderDetailDto;
+import com.aiswift.Tenant.DTO.OrderStatusDto;
 import com.aiswift.Tenant.Entity.Order;
 import com.aiswift.Tenant.Entity.OrderDetail;
 import com.aiswift.Tenant.Entity.Product;
@@ -17,8 +20,6 @@ import com.aiswift.Tenant.Entity.Size;
 import com.aiswift.Tenant.Entity.StatusHistorySerializer;
 import com.aiswift.Tenant.Entity.TenantUser;
 import com.aiswift.Tenant.Repository.OrderRepository;
-import com.aiswift.DTO.Tenant.OrderDetailDto;
-import com.aiswift.DTO.Tenant.OrderStatusDto;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +73,7 @@ public class OrderService {
 	public List<Order> getAllOrdersByUser(TenantUser user) {
 		log.info("Retrieving all orders for user: {}", user.getEmail());
 		// Find all orders for this user in the current tenant
-		List<Order> orders = orderRepository.findByUserId(user.getId());
+		List<Order> orders = orderRepository.findByUserId(user.getEmail());
 
 		log.info("Found {} orders for user: {}", orders.size(), user.getEmail());
 		return orders;

@@ -9,10 +9,10 @@ import com.aiswift.Global.Entity.Owner;
 import com.aiswift.Global.Entity.Tenant;
 import com.aiswift.Global.Service.OwnerService;
 import com.aiswift.Global.Service.TenantService;
+import com.aiswift.Tenant.DTO.UserResponse;
 import com.aiswift.Tenant.Entity.TenantUser;
 import com.aiswift.Tenant.Service.UserService;
 import com.aiswift.dto.Global.TenantResponse;
-import com.aiswift.dto.Tenant.UserResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

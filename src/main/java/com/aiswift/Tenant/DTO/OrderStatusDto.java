@@ -1,4 +1,4 @@
-package com.aiswift.DTO.Tenant;
+package com.aiswift.Tenant.DTO;
 
 import java.time.LocalDateTime;
 

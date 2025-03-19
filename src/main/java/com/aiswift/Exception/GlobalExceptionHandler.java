@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.aiswift.DTO.Tenant.ErrorResponse;
+import com.aiswift.Tenant.DTO.ErrorResponse;
 import com.google.zxing.WriterException;
 import com.paypal.base.rest.PayPalRESTException;
 
