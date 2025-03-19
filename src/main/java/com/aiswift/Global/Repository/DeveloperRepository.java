@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.aiswift.Global.Entity.Developer;
 
-
 @Repository
-public interface DeveloperRepository extends JpaRepository<Developer,Long> {
+public interface DeveloperRepository extends JpaRepository<Developer, Long> {
+	
+	boolean existsByEmail(String email);
+
+	Optional<Developer> findByResetToken(String token);
 
 	Optional<Developer> findByEmail(String email);
 
