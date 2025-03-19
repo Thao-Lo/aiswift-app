@@ -1,4 +1,4 @@
-package com.aiswift.dto.Tenant;
+package com.aiswift.Tenant.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

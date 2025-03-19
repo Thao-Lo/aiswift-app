@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.aiswift.Config.TenantDatabaseCondition;
 import com.aiswift.Enum.OrderStatus;
+import com.aiswift.Tenant.DTO.OrderDetailDto;
 import com.aiswift.Tenant.Entity.Order;
 import com.aiswift.Tenant.Service.OrderDetailService;
 import com.aiswift.Tenant.Service.OrderService;
-import com.aiswift.dto.Tenant.OrderDetailDto;
 
 @Conditional(TenantDatabaseCondition.class) // Only create for tenant databases
 @RestController

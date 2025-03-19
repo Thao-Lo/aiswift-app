@@ -17,10 +17,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.aiswift.Tenant.DTO.AccessTokenResponse;
+import com.aiswift.Tenant.DTO.PaypalPaymentResponse;
 import com.aiswift.Tenant.Entity.PayPal;
 import com.aiswift.Tenant.Repository.PaypalRepository;
-import com.aiswift.dto.Tenant.AccessTokenResponse;
-import com.aiswift.dto.Tenant.PaypalPaymentResponse;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;

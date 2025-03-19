@@ -10,10 +10,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.aiswift.Common.Service.CustomUserDetailsService;
 
-
-
-
-
 @Configuration
 public class SecurityConfig {
 	
@@ -28,12 +24,8 @@ public class SecurityConfig {
 	
 	@Autowired CustomUsernamePasswordAuthenticationFilter loginFilter;
 	
-	
-	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		
-		
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {	
 		http
 	     // Tenant filter runs before JWT filter
         .addFilterBefore(tenantFilter, UsernamePasswordAuthenticationFilter.class)
@@ -43,11 +35,12 @@ public class SecurityConfig {
    
 		.authorizeHttpRequests(
 				(requests) -> requests
-				.requestMatchers("/api/login").permitAll()
-				.requestMatchers("/api/user/profile").hasAnyRole("GUEST", "ADMIN")
-				.requestMatchers("/api/admin/**").hasRole("ADMIN")
+//				.requestMatchers("/api/login").permitAll()	
+				.requestMatchers("/api/public/**").permitAll()
+				.requestMatchers("/api/developer/**").hasAnyRole("SUPER_ADMIN", "ADMIN")
+				.requestMatchers("/api/admin/**").hasAnyRole("OWNER", "ADMIN")
 				.requestMatchers("/api/owner/**").hasRole("OWNER")
-				.requestMatchers("/api/tenant/**").hasAnyRole("STAFF_LEVEL_1", "STAFF_LEVEL_2","ADMIN","SUPERVISOR")
+				.requestMatchers("/api/tenant/**").hasAnyRole("STAFF_LEVEL_1", "STAFF_LEVEL_2","ADMIN","SUPERVISOR", "OWNER")
 				.anyRequest().authenticated()) 
 		// logout is managed on client's side : remove JWT, redirect user to the login page
 		//can add server-side validation later (blacklist) .. to stop validate jwt after logout
@@ -56,10 +49,7 @@ public class SecurityConfig {
 				        )
 				.csrf(csrf -> csrf.disable());
 		
-		return http.build();
-		
+		return http.build();		
 	}
-	
-	
 
 }

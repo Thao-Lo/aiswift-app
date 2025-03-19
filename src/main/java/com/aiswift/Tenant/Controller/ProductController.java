@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aiswift.Config.TenantDatabaseCondition;
+import com.aiswift.Tenant.DTO.ProductDto;
 import com.aiswift.Tenant.Entity.Product;
 import com.aiswift.Tenant.Service.ProductService;
-import com.aiswift.dto.Tenant.ProductDto;
 
 @Conditional(TenantDatabaseCondition.class)  // Only create for tenant databases
 @RestController

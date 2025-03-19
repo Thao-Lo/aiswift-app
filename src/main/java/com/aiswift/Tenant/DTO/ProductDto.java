@@ -1,4 +1,4 @@
-package com.aiswift.dto.Tenant;
+package com.aiswift.Tenant.DTO;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.web.multipart.MultipartFile;

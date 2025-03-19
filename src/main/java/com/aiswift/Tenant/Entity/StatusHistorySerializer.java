@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.aiswift.Enum.OrderStatus;
-import com.aiswift.dto.Tenant.OrderStatusDto;
+import com.aiswift.Tenant.DTO.OrderStatusDto;
 
 public class StatusHistorySerializer {
 

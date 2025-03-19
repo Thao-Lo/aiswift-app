@@ -37,7 +37,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
         // Set the authentication manager in the parent class
         setAuthenticationManager(authenticationManager);
         // Set filter URL
-        setFilterProcessesUrl("/api/login");
+        setFilterProcessesUrl("/api/public/login");
     }
     
     @Override
